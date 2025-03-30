@@ -49,7 +49,7 @@ document
 
     try {
       const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbyIn8mqDvCF8cLP0GwVrpDBTIz-bZN2TUVwluTuohwEpYU8J2wYecnoauKNaigQk2GcDA/exec",
+        "https://script.google.com/macros/s/AKfycbxJOFlRdGvBMaFvGdlojbmpHFPwIg1UEfT83KdQ8SX6dn6PBFl0c7tGm2huAuw8IF7jFA/exec",
         {
           method: "POST",
           headers: {
