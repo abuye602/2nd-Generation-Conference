@@ -12,7 +12,7 @@ function showNotification(type) {
       window.location.reload();
     }
     window.scrollTo(0, 0);
-  }, 900);
+  }, 3000);
 }
 
 // Optionally, prevent numbers in the name field
