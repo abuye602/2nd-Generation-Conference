@@ -113,8 +113,19 @@
       </div>
 
       <!-- Notification Messages -->
-      <div class="notification success" id="success-message">
-        Successfully submitted! Thank you for registering.
+      <div
+        class="notification success"
+        id="success-message"
+        style="display: none"
+      >
+        <strong>Successfully submitted!</strong> Thank you for registering.
+        <br />
+        <small
+          style="display: block; margin-top: 4px; color: #fff; opacity: 0.9"
+        >
+          📩 Please check your spam folder if you don't see the confirmation
+          email.
+        </small>
       </div>
       <div class="notification error" id="error-message">
         Submission failed. Please try again.
