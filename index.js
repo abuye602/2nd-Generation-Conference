@@ -56,7 +56,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
       try {
         const response = await fetch(
-          "https://script.google.com/macros/s/AKfycbzU_JuHkvfhEJnXgce506Kw1Rd5Y_YIVgzGfFawTyvStkRNghqemtxCfsOqwlgV4YXjEA/exec",
+          "https://script.google.com/macros/s/AKfycby_PcoLJUJhXRmluN2WL4zVx5Ab1PjaBn5kV7bkQoQ90G8zaXn2qV9b2UAeljduznj2vw/exec",
           {
             method: "POST",
             headers: {
