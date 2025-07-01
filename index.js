@@ -1,104 +1,118 @@
-// Function to show notification
-function showNotification(type) {
-  const element = document.getElementById(type + "-message");
-  element.style.display = "block";
+window.addEventListener("DOMContentLoaded", () => {
+  const paymentSelect = document.getElementById("paymentOption");
+  const submitButton = document.querySelector(".submit-btn"); // Make sure your button has class="submit-btn"
 
-  // Hide notification after 3 seconds
-  setTimeout(() => {
-    element.style.display = "none";
-
-    // Refresh page after success notification disappears
-    if (type === "success") {
-      window.location.reload();
+  paymentSelect.addEventListener("change", () => {
+    const selected = paymentSelect.value;
+    if (selected.includes("Paid")) {
+      submitButton.textContent = "Pay Now";
+    } else {
+      submitButton.textContent = "Register Now";
     }
-    window.scrollTo(0, 0);
-  }, 3000);
-}
+  });
 
-// Optionally, prevent numbers in the name field
-document.getElementById("name").addEventListener("input", function () {
-  this.value = this.value.replace(/[0-9]/g, "");
-});
+  document
+    .getElementById("event-form")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-// Handle form submission with JavaScript (using fetch)
-document
-  .getElementById("event-form")
-  .addEventListener("submit", async function (e) {
-    e.preventDefault();
+      const paymentOption = paymentSelect.value;
 
-    // Show loading spinner
-    document.getElementById("loading-spinner").style.display = "flex";
+      // Payment logic
+      const urlParams = new URLSearchParams(window.location.search);
+      const paymentConfirmed = urlParams.get("paid") === "true";
 
-    // Gather form data into an object
-    const formData = {
-      name: document.getElementById("name").value.trim(),
-      email: document.getElementById("email").value.trim(),
-      ministry: document.getElementById("ministry").value.trim(),
-      age: document.getElementById("age").value,
-      attendees: document.getElementById("attendees").value,
-      timestamp: new Date().toLocaleString(),
-    };
-
-    // Build URL-encoded data
-    const urlParams = new URLSearchParams();
-    urlParams.append("name", formData.name);
-    urlParams.append("email", formData.email);
-    urlParams.append("ministry", formData.ministry);
-    urlParams.append("age", formData.age);
-    urlParams.append("attendees", formData.attendees);
-
-    try {
-      const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbyWu-i8p4AidPxLHbROz0KJvR2vzbxl5m7HTZ8ku-Ew6kbJU3QSV8poCOQFpw99zQamGw/exec",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: urlParams,
-        }
-      );
-
-      const text = await response.text();
-      console.log("Raw response:", text); // Log the raw response for debugging
-
-      let result;
-      try {
-        result = JSON.parse(text);
-        console.log("Parsed result:", result); // Log the parsed result
-      } catch (e) {
-        console.error("Failed to parse JSON:", text);
-        document.getElementById("error-message").textContent =
-          "Server response error. Please try again or contact support.";
+      if (paymentOption.includes("Paid") && !paymentConfirmed) {
         document.getElementById("loading-spinner").style.display = "none";
+        document.getElementById("error-message").textContent =
+          "Please complete payment before submitting the form.";
+
+        setTimeout(() => {
+          window.open(
+            "https://buy.stripe.com/test_9B6fZhgXo0x74T4f5UaR201",
+            "_blank"
+          );
+        }, 1000);
+
         showNotification("error");
         return;
       }
 
-      // Hide loading spinner
-      document.getElementById("loading-spinner").style.display = "none";
+      document.getElementById("loading-spinner").style.display = "flex";
 
-      if (result.status === "duplicate") {
-        document.getElementById("error-message").textContent =
-          "You have already registered with this email address.";
-        showNotification("error");
-      } else if (result.status === "success") {
-        // Show success notification
-        showNotification("success");
-        document.getElementById("event-form").reset();
-      } else {
-        document.getElementById("error-message").textContent =
-          result.message || "Submission failed. Please try again.";
-        showNotification("error");
+      const formData = {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        age: document.getElementById("age").value,
+        accommodation: document.getElementById("accommodation").value.trim(),
+        paymentOption: document.getElementById("paymentOption").value.trim(),
+        timestamp: new Date().toLocaleString(),
+      };
+
+      const urlPayload = new URLSearchParams();
+      for (const key in formData) {
+        urlPayload.append(key, formData[key]);
       }
-    } catch (error) {
-      // Hide loading spinner even if there's an error
-      document.getElementById("loading-spinner").style.display = "none";
 
-      // Show error notification with more details
-      console.error("Submission error:", error);
-      document.getElementById("error-message").textContent =
-        "Connection error. Please check your internet and try again.";
-      showNotification("error");
-    }
-  });
+      try {
+        const response = await fetch(
+          "https://script.google.com/macros/s/AKfycbzEN92r5_gzOzsdpuIrL2j3oPht2YtsYstYrOOxOYetn_2KJB4mFJn4_McRkZLm6ektqg/exec",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: urlPayload,
+          }
+        );
+
+        const text = await response.text();
+        console.log("Raw response from server:", text);
+
+        let result;
+        try {
+          result = JSON.parse(text);
+        } catch (e) {
+          console.error("JSON parse failed:", e);
+          showError("Server error: " + text);
+          return;
+        }
+
+        document.getElementById("loading-spinner").style.display = "none";
+
+        if (result.status === "duplicate") {
+          showError("You've already registered with this email.");
+        } else if (result.status === "success") {
+          showNotification("success");
+          document.getElementById("event-form").reset();
+          submitButton.textContent = "Register Now";
+        } else {
+          showError(result.message || "Submission failed.");
+        }
+      } catch (err) {
+        document.getElementById("loading-spinner").style.display = "none";
+        showError("Connection error. Please try again.");
+      }
+    });
+
+  function showNotification(type) {
+    const element = document.getElementById(type + "-message");
+    element.style.display = "block";
+
+    // Hide notification after 3 seconds
+    setTimeout(() => {
+      element.style.display = "none";
+
+      // Refresh page after success notification disappears
+      if (type === "success") {
+        window.location.reload();
+      }
+      window.scrollTo(0, 0);
+    }, 5000);
+  }
+  function showError(message) {
+    const errorEl = document.getElementById("error-message");
+    errorEl.textContent = message;
+    showNotification("error");
+  }
+});

@@ -1,8 +1,8 @@
-# Daniel Initiative Event Registration
+# 2nd Gen Conference
 
 ## Overview:
 
-This is a web-based event registration system for the Daniel Initiative's Ignite Conference. The application allows participants to register for the event by submitting their personal information through a user-friendly form.
+This is a web-based event registration system for a 2nd Gen Conference. The application allows participants to register for the event by submitting their personal information through a user-friendly form.
 
 ## Features
 
@@ -56,4 +56,5 @@ To modify or extend this project:
 1. Edit the HTML, CSS, or JavaScript files as needed
 2. Test changes using a local development server (VS Code Live Server recommended)
 3. Deploy updated files to your hosting provider
+
 # 2nd-Generation-Conference
