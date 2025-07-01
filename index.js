@@ -56,7 +56,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
       try {
         const response = await fetch(
-          "https://script.google.com/macros/s/AKfycbzEN92r5_gzOzsdpuIrL2j3oPht2YtsYstYrOOxOYetn_2KJB4mFJn4_McRkZLm6ektqg/exec",
+          "https://script.google.com/macros/s/AKfycbwhGth5WtBeBgSt-64otFs91NioaVc_a_B7AGFxzI7Ev8FqHCsKfvGQVKNr9yGw3bSdLQ/exec",
           {
             method: "POST",
             headers: {
@@ -108,7 +108,7 @@ window.addEventListener("DOMContentLoaded", () => {
         window.location.reload();
       }
       window.scrollTo(0, 0);
-    }, 5000);
+    }, 3000);
   }
   function showError(message) {
     const errorEl = document.getElementById("error-message");
