@@ -56,3 +56,4 @@ To modify or extend this project:
 1. Edit the HTML, CSS, or JavaScript files as needed
 2. Test changes using a local development server (VS Code Live Server recommended)
 3. Deploy updated files to your hosting provider
+# 2nd-Generation-Conference
