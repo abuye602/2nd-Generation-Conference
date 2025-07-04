@@ -61,7 +61,7 @@
 
         <!-- Remove the action and method attributes since JS handles submission -->
         <form
-          action="https://script.google.com/macros/s/AKfycby_PcoLJUJhXRmluN2WL4zVx5Ab1PjaBn5kV7bkQoQ90G8zaXn2qV9b2UAeljduznj2vw/exec"
+          action="https://script.google.com/macros/s/AKfycbycq1ZrOOMCKjr2U7_uNVYhSCxpOwgIcdGrfj9UxCY0S6AYRctCbM5fVfKzCusgYOGacQ/exec"
           method="POST"
           id="event-form"
         >
@@ -128,6 +128,11 @@
             </select>
           </div>
 
+          <div style="display: none">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" />
+          </div>
+
           <div
             style="
               background: rgba(255, 255, 255, 0.1);
@@ -162,6 +167,9 @@
               If paying later, just complete the form now.
             </p>
           </div>
+
+          <input type="hidden" id="ip" name="ip" />
+          <input type="hidden" id="userAgent" name="userAgent" />
 
           <button type="submit" class="submit-btn">Register Now</button>
         </form>

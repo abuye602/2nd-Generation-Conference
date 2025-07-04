@@ -32,10 +32,10 @@ document.getElementById("age").addEventListener("input", function () {
 });
 
 // Ministry validation - prevent submission with just spaces
-document.getElementById("ministry").addEventListener("blur", function () {
-  if (this.value.trim() === "") {
-    this.setCustomValidity("Please enter your ministry or church name");
-  } else {
-    this.setCustomValidity("");
-  }
-});
+// document.getElementById("ministry").addEventListener("blur", function () {
+//   if (this.value.trim() === "") {
+//     this.setCustomValidity("Please enter your ministry or church name");
+//   } else {
+//     this.setCustomValidity("");
+//   }
+// });

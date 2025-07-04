@@ -2,6 +2,55 @@ window.addEventListener("DOMContentLoaded", () => {
   const paymentSelect = document.getElementById("paymentOption");
   const submitButton = document.querySelector(".submit-btn"); // Make sure your button has class="submit-btn"
 
+  // Get IP from ipinfo.io
+  fetch("https://ipinfo.io/json?token=103ea754f21c36") // Optional: register for free token at ipinfo.io
+    .then((response) => response.json())
+    .then((data) => {
+      document.getElementById("ip").value = data.ip || "Unknown";
+    })
+    .catch(() => {
+      document.getElementById("ip").value = "Unknown";
+    });
+
+  // Set userAgent
+  const ua = navigator.userAgent;
+  let summary = "";
+
+  // Browser & Platform Detection
+  if (/iPhone|iPad|iPod/i.test(ua)) {
+    summary = "Safari on iOS";
+  } else if (/Android/i.test(ua)) {
+    if (/Chrome/i.test(ua)) {
+      summary = "Chrome on Android";
+    } else {
+      summary = "Browser on Android";
+    }
+  } else if (/Macintosh/i.test(ua)) {
+    if (/Chrome/i.test(ua)) {
+      summary = "Chrome on macOS";
+    } else if (/Safari/i.test(ua)) {
+      summary = "Safari on macOS";
+    } else if (/Firefox/i.test(ua)) {
+      summary = "Firefox on macOS";
+    } else {
+      summary = "Browser on macOS";
+    }
+  } else if (/Windows/i.test(ua)) {
+    if (/Chrome/i.test(ua)) {
+      summary = "Chrome on Windows";
+    } else if (/Edge/i.test(ua)) {
+      summary = "Edge on Windows";
+    } else if (/Firefox/i.test(ua)) {
+      summary = "Firefox on Windows";
+    } else {
+      summary = "Browser on Windows";
+    }
+  } else {
+    summary = "Unknown browser/device";
+  }
+
+  document.getElementById("userAgent").value = summary;
+
   paymentSelect.addEventListener("change", () => {
     const selected = paymentSelect.value;
     if (selected.includes("Paid")) {
@@ -46,6 +95,9 @@ window.addEventListener("DOMContentLoaded", () => {
         age: document.getElementById("age").value,
         accommodation: document.getElementById("accommodation").value.trim(),
         paymentOption: document.getElementById("paymentOption").value.trim(),
+        ip: document.getElementById("ip").value,
+        userAgent: document.getElementById("userAgent").value,
+        company: document.getElementById("company").value.trim(),
         timestamp: new Date().toLocaleString(),
       };
 
@@ -56,7 +108,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
       try {
         const response = await fetch(
-          "https://script.google.com/macros/s/AKfycby_PcoLJUJhXRmluN2WL4zVx5Ab1PjaBn5kV7bkQoQ90G8zaXn2qV9b2UAeljduznj2vw/exec",
+          "https://script.google.com/macros/s/AKfycbycq1ZrOOMCKjr2U7_uNVYhSCxpOwgIcdGrfj9UxCY0S6AYRctCbM5fVfKzCusgYOGacQ/exec",
           {
             method: "POST",
             headers: {
